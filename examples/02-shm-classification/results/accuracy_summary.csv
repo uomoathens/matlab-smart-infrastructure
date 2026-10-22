@@ -1,0 +1,3 @@
+Model,TrainingAccuracy_pct,LeaveOneOutAccuracy_pct
+Bagged trees,100,100
+Neural network,100,100

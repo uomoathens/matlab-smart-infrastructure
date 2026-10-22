@@ -1,5 +1,7 @@
 # MATLAB for Smart Infrastructure
 
+**Dimitrios Sargiotis** · National Technical University of Athens · [users.ntua.gr/dims](https://users.ntua.gr/dims/) · [uomoathens.github.io](https://uomoathens.github.io/)
+
 [![DOI](https://zenodo.org/badge/1429348142.svg)](https://doi.org/10.5281/zenodo.23555622) [![Run examples](https://github.com/uomoathens/matlab-smart-infrastructure/actions/workflows/run-examples.yml/badge.svg)](https://github.com/uomoathens/matlab-smart-infrastructure/actions/workflows/run-examples.yml)
 
 Companion code for selected case studies from Chapter 15 of

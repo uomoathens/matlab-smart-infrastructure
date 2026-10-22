@@ -42,8 +42,9 @@ jobs:
       - name: Stage licensed media
         if: env.HAS_MEDIA_TOKEN == 'true'
         run: |
+          command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
           mkdir -p examples/06-construction-worker-safety/data
-          cp .media/site-construction-workers.mp4 examples/06-construction-worker-safety/data/
+          ffmpeg -loglevel error -y -i .media/site-construction-workers.mp4 -an -vf vflip -c:v rawvideo -pix_fmt bgr24 -flipped_raw_rgb 1 examples/06-construction-worker-safety/data/site-construction-workers.avi
 
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3

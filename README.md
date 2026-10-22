@@ -6,7 +6,7 @@ Companion code for selected case studies from Chapter 15 of
 
 > Sargiotis, D. (2025). *MATLAB for Civil Engineers: From Basics to Advanced Applications*. Springer Nature Switzerland. https://doi.org/10.1007/978-3-031-84673-1
 
-The five examples cover data-driven methods for civil infrastructure: a machine-learning digital twin, structural health classification, IoT sensor monitoring, metaheuristic traffic-signal optimisation for Athens, and multi-objective design of a wastewater treatment plant. Each example is a self-contained, reproducible script that writes its figures and tables to a local `results/` folder.
+The six examples cover data-driven methods for civil infrastructure: a machine-learning digital twin, structural health classification, IoT sensor monitoring, metaheuristic traffic-signal optimisation for Athens, multi-objective design of a wastewater treatment plant, and vision-based worker detection and hazard identification on construction sites. Each example is a self-contained, reproducible script that writes its figures and tables to a local `results/` folder.
 
 ## Examples
 
@@ -17,6 +17,7 @@ The five examples cover data-driven methods for civil infrastructure: a machine-
 | 03 | [IoT structural monitoring of a bridge](examples/03-iot-bridge-monitoring) | 15.6.3 | Multi-sensor streams, threshold and persistence-based alarms | None |
 | 04 | [Traffic signal optimisation in Athens](examples/04-athens-signal-ga) | 15.6.3 | Genetic algorithm with hybrid local search, closed-form verification | Optimization, Global Optimization |
 | 05 | [Wastewater treatment plant design](examples/05-wastewater-pareto) | 15.4.6 | NSGA-II style multi-objective GA, Pareto front, compromise selection | Optimization, Global Optimization |
+| 06 | [Worker detection and hazard identification on a construction site](examples/06-construction-worker-safety) | 15.6.5 | Pre-trained ACF people detector, non-maximum suppression, hazard-zone labelling, persistence-based events | Computer Vision |
 
 ## Requirements
 
@@ -30,7 +31,7 @@ Run all examples from the repository root:
 run_all
 ```
 
-or open any script in `examples/` and run it on its own. Every script fixes the random seed with `rng(42)`. Examples 01 to 04 reproduce the same numbers on every run; the multi-objective genetic algorithm in example 05 can return a slightly different Pareto set from run to run, as explained in its README. All examples are also run automatically in GitHub Actions on MATLAB with the required toolboxes, and the `results/` folders in this repository are regenerated whenever the code changes. Examples 01 and 03 also contain a `liveMode` flag; set it to `true` for an animated, real-time view of the sensor stream.
+or open any script in `examples/` and run it on its own. Every script fixes the random seed with `rng(42)`. Examples 01 to 04 and 06 reproduce the same numbers on every run; the multi-objective genetic algorithm in example 05 can return a slightly different Pareto set from run to run, as explained in its README. All examples are also run automatically in GitHub Actions on MATLAB with the required toolboxes, and the `results/` folders in this repository are regenerated whenever the code changes. Examples 01 and 03 also contain a `liveMode` flag; set it to `true` for an animated, real-time view of the sensor stream. Example 06 runs on a sample video that ships with MATLAB; the licensed construction-site video used in the book is not distributed, and its README explains how to use your own copy.
 
 ## Relation to the printed text
 

@@ -6,6 +6,7 @@ scripts = [
     "examples/03-iot-bridge-monitoring/iot_bridge_monitoring.m"
     "examples/04-athens-signal-ga/athens_signal_ga.m"
     "examples/05-wastewater-pareto/wastewater_pareto.m"
+    "examples/06-construction-worker-safety/construction_worker_safety.m"
 ];
 for i = 1:numel(scripts)
     runIsolated(fullfile(root, scripts(i)));

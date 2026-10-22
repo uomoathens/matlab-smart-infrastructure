@@ -21,6 +21,8 @@ jobs:
   run-examples:
     name: MATLAB ${{ matrix.release }}
     runs-on: ubuntu-latest
+    env:
+      HAS_MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN != '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -29,11 +31,25 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Check out licensed media
+        if: env.HAS_MEDIA_TOKEN == 'true'
+        uses: actions/checkout@v6
+        with:
+          repository: uomoathens/matlab-smart-infrastructure-media
+          token: ${{ secrets.MEDIA_TOKEN }}
+          path: .media
+
+      - name: Stage licensed media
+        if: env.HAS_MEDIA_TOKEN == 'true'
+        run: |
+          mkdir -p examples/06-construction-worker-safety/data
+          cp .media/site-construction-workers.mp4 examples/06-construction-worker-safety/data/
+
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3
         with:
           release: ${{ matrix.release }}
-          products: Statistics_and_Machine_Learning_Toolbox Optimization_Toolbox Global_Optimization_Toolbox
+          products: Statistics_and_Machine_Learning_Toolbox Optimization_Toolbox Global_Optimization_Toolbox Image_Processing_Toolbox Computer_Vision_Toolbox
 
       - name: Run all examples
         uses: matlab-actions/run-command@v3

@@ -13,6 +13,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: run-examples
+  cancel-in-progress: true
+
 jobs:
   run-examples:
     runs-on: ubuntu-latest
@@ -42,4 +46,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add examples/*/results
           git diff --cached --quiet || git commit -m "Update example results"
+          git pull --rebase origin main
           git push

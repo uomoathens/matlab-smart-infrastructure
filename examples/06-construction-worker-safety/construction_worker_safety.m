@@ -18,15 +18,27 @@ if isfile(siteVideo)
     cases(end + 1) = struct('name', "site", 'videoPath', siteVideo, 'detectorName', "inria", ...
         'zoneName', "Scaffold (working at height)", 'zoneNormalized', [0 0.25; 0.92 0.25; 0.92 1.00; 0 1.00]);
 else
-    fprintf('Site video not found at %s; running the demo case only.\n', siteVideo);
+    fprintf('Site video not found at %s; skipping the site case.\n', siteVideo);
 end
 
 demoVideo = which('vippedtracking.mp4');
 if isempty(demoVideo)
-    error('The Computer Vision Toolbox sample video vippedtracking.mp4 was not found.');
+    candidate = fullfile(matlabroot, 'toolbox', 'vision', 'visiondata', 'vippedtracking.mp4');
+    if isfile(candidate)
+        demoVideo = candidate;
+    end
 end
-cases(end + 1) = struct('name', "demo", 'videoPath', demoVideo, 'detectorName', "caltech", ...
-    'zoneName', "Vehicle path", 'zoneNormalized', [0.30 1.00; 0.45 0.55; 0.55 0.55; 0.70 1.00]);
+if isempty(demoVideo)
+    fprintf('Sample video vippedtracking.mp4 not installed; skipping the demo case.\n');
+else
+    cases(end + 1) = struct('name', "demo", 'videoPath', demoVideo, 'detectorName', "caltech", ...
+        'zoneName', "Vehicle path", 'zoneNormalized', [0.30 1.00; 0.45 0.55; 0.55 0.55; 0.70 1.00]);
+end
+
+if isempty(cases)
+    error(['No input video available. Place a site video at %s or install the ', ...
+        'Computer Vision Toolbox sample data that provides vippedtracking.mp4.'], siteVideo);
+end
 
 for c = 1:numel(cases)
     processVideo(cases(c), opts);

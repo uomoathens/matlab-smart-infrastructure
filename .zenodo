@@ -1,0 +1,38 @@
+{
+  "upload_type": "software",
+  "title": "MATLAB for Smart Infrastructure: companion code for Chapter 15 of MATLAB for Civil Engineers",
+  "creators": [
+    {
+      "name": "Sargiotis, Dimitrios",
+      "affiliation": "School of Civil Engineering, National Technical University of Athens",
+      "orcid": "0009-0006-3644-4561"
+    }
+  ],
+  "description": "<p>Companion code for Chapter 15 of <i>MATLAB for Civil Engineers: From Basics to Advanced Applications</i> (Springer, 2025, https://doi.org/10.1007/978-3-031-84673-1).</p><p>Five reproducible case studies: a digital twin for bridge stress monitoring, structural health classification with leave-one-out validation, IoT structural monitoring with persistence-based alarms, genetic-algorithm traffic signal optimisation for Athens with closed-form verification, and multi-objective design of a wastewater treatment plant. All examples are run automatically in GitHub Actions on MATLAB R2023b and the latest release.</p>",
+  "license": "MIT",
+  "keywords": [
+    "MATLAB",
+    "civil engineering",
+    "digital twin",
+    "structural health monitoring",
+    "machine learning",
+    "IoT",
+    "optimization",
+    "genetic algorithm",
+    "multi-objective optimization",
+    "smart infrastructure"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1007/978-3-031-84673-1",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-book",
+      "scheme": "doi"
+    }
+  ],
+  "references": [
+    "Sargiotis, D. (2025). MATLAB for Civil Engineers: From Basics to Advanced Applications. Springer Nature Switzerland. https://doi.org/10.1007/978-3-031-84673-1"
+  ],
+  "notes": "If you use this code, please cite the book: Sargiotis, D. (2025). MATLAB for Civil Engineers: From Basics to Advanced Applications. Springer. https://doi.org/10.1007/978-3-031-84673-1",
+  "language": "eng"
+}

@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HAS_MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN != '' }}
+      MSI_PLOT_FONT: Liberation Sans
     strategy:
       fail-fast: false
       matrix:
@@ -45,6 +46,12 @@ jobs:
           command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
           mkdir -p examples/06-construction-worker-safety/data
           ffmpeg -loglevel error -y -i .media/site-construction-workers.mp4 -an -vf vflip -c:v rawvideo -pix_fmt bgr24 -flipped_raw_rgb 1 examples/06-construction-worker-safety/data/site-construction-workers.avi
+
+      - name: Install plot fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-liberation
+          fc-list | grep -i "Liberation Sans" | head -1
 
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3

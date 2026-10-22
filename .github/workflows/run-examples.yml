@@ -19,7 +19,12 @@ concurrency:
 
 jobs:
   run-examples:
+    name: MATLAB ${{ matrix.release }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        release: [R2023b, latest]
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -27,6 +32,7 @@ jobs:
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v3
         with:
+          release: ${{ matrix.release }}
           products: Statistics_and_Machine_Learning_Toolbox Optimization_Toolbox Global_Optimization_Toolbox
 
       - name: Run all examples
@@ -37,10 +43,11 @@ jobs:
       - name: Upload results
         uses: actions/upload-artifact@v7
         with:
-          name: results
+          name: results-${{ matrix.release }}
           path: examples/*/results/
 
       - name: Commit results
+        if: matrix.release == 'latest'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

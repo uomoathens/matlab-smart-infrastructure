@@ -65,19 +65,20 @@ if ~isfolder(resultsDir)
 end
 
 fig1 = figure('Name', 'Sensor streams', 'Position', [100 100 900 700]);
-subplot(3, 1, 1);
+tiledlayout(fig1, 3, 1, 'TileSpacing', 'compact');
+nexttile;
 plot(time, strain');
 yline(strainThreshold, 'r--', 'Threshold', 'LineWidth', 1.2);
 ylabel('Strain (microstrain)');
 title('Strain');
 grid on;
-subplot(3, 1, 2);
+nexttile;
 plot(time, tilt');
 yline(tiltThreshold, 'r--', 'Threshold', 'LineWidth', 1.2);
 ylabel('Tilt (deg)');
 title('Tilt');
 grid on;
-subplot(3, 1, 3);
+nexttile;
 plot(time, vibration');
 yline(vibrationThreshold, 'r--', 'Threshold', 'LineWidth', 1.2);
 ylabel('Vibration (g)');

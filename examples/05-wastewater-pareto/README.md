@@ -26,16 +26,16 @@ Both objectives are normalised to $[0,1]$ over the Pareto front, and the design 
 
 ## Results
 
-From the automated runs in GitHub Actions (seed 42), rounded:
+Range observed across the automated runs in GitHub Actions (seed 42):
 
 | Quantity | Value |
 |---|---:|
 | Pareto-optimal designs | 70 |
-| Primary unit range | about 715 to 1000 |
+| Primary unit range | 715–718 to 1000 |
 | Secondary unit range | 200 to 1000 |
-| Compromise design $(x_1, x_2)$ | about (770, 500) |
-| Compromise total cost | about $9.4 \times 10^5$ |
-| Compromise environmental impact | about 5.7 |
+| Compromise design $(x_1, x_2)$ | between (754, 527) and (768, 501) |
+| Compromise total cost | $9.4$ to $9.5 \times 10^5$ |
+| Compromise environmental impact | 5.6 to 5.7 |
 
 The exact Pareto set is not bit-for-bit reproducible: separate runs with the same seed have returned slightly different points, and with them a compromise design that moves along the front (for example $(754, 527)$ in one run and $(768, 501)$ in another). The shape of the front and the ranges above are stable. The values from the most recent run are in `results/pareto_front.csv`.
 

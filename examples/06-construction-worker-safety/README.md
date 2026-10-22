@@ -33,17 +33,18 @@ The demo video is filmed from a moving car. Its *Vehicle path* zone corresponds 
 
 From the automated run in GitHub Actions on the construction-site clip (Fig. 15.17). Frame-level counts and sustained hazard events are in the CSV files.
 
-![Construction site: frame with the most workers in the hazard zone](results/site_hazard_frame.png)
+![Construction site: first frame, the scene of Fig. 15.17](results/site_hazard_frame.png)
 
 ![Construction site: detections per frame and sustained hazard events](results/site_hazard_timeline.png)
 
 ## Outputs
 
-- `results/<case>_hazard_frame.png`: the frame with the most workers in the hazard zone, annotated with the zone, *Hazard* and *Worker* labels
+- `results/<case>_hazard_frame.png`: an annotated frame with the zone, *Hazard* and *Worker* labels; for the site case this is the first frame, the scene of Fig. 15.17, and for the demo case the frame with the most workers in the zone
 - `results/<case>_hazard_timeline.png`: workers detected and workers in the hazard zone per frame, with sustained events shaded
 - `results/<case>_detections_per_frame.csv`: time, workers detected and workers in the zone for every frame
+- `results/<case>_detections.csv`: every retained detection with its bounding box, ACF score and zone membership
 - `results/<case>_hazard_events.csv`: start, end, duration and peak number of workers for each sustained event
-- `results/<case>_summary.csv`: summary counts
+- `results/<case>_summary.csv`: summary counts and the distribution of detection scores
 - `results/<case>_annotated_video.avi`: the full annotated video, written only when `saveVideo` is set to `true`
 
 ## Changes relative to the printed version

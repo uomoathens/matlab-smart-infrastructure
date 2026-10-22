@@ -1,0 +1,45 @@
+name: Run examples
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "examples/**/*.m"
+      - "examples/**/data/**"
+      - "run_all.m"
+      - ".github/workflows/run-examples.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  run-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v3
+        with:
+          products: Statistics_and_Machine_Learning_Toolbox Optimization_Toolbox Global_Optimization_Toolbox
+
+      - name: Run all examples
+        uses: matlab-actions/run-command@v3
+        with:
+          command: run_all
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: results
+          path: examples/*/results/
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add examples/*/results
+          git diff --cached --quiet || git commit -m "Update example results"
+          git push

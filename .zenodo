@@ -8,7 +8,7 @@
       "orcid": "0009-0006-3644-4561"
     }
   ],
-  "description": "<p>Companion code for Chapter 15 of <i>MATLAB for Civil Engineers: From Basics to Advanced Applications</i> (Springer, 2025, https://doi.org/10.1007/978-3-031-84673-1).</p><p>Five reproducible case studies: a digital twin for bridge stress monitoring, structural health classification with leave-one-out validation, IoT structural monitoring with persistence-based alarms, genetic-algorithm traffic signal optimisation for Athens with closed-form verification, and multi-objective design of a wastewater treatment plant. All examples are run automatically in GitHub Actions on MATLAB R2023b and the latest release.</p>",
+  "description": "<p>Companion code for Chapter 15 of <i>MATLAB for Civil Engineers: From Basics to Advanced Applications</i> (Springer, 2025, https://doi.org/10.1007/978-3-031-84673-1).</p><p>Six reproducible case studies: a digital twin for bridge stress monitoring, structural health classification with leave-one-out validation, IoT structural monitoring with persistence-based alarms, genetic-algorithm traffic signal optimisation for Athens with closed-form verification, multi-objective design of a wastewater treatment plant, and worker detection and hazard identification on construction sites with a pre-trained ACF people detector. All examples are run automatically in GitHub Actions on MATLAB R2023b and the latest release.</p>",
   "license": "MIT",
   "keywords": [
     "MATLAB",
@@ -20,7 +20,9 @@
     "optimization",
     "genetic algorithm",
     "multi-objective optimization",
-    "smart infrastructure"
+    "smart infrastructure",
+    "computer vision",
+    "construction safety"
   ],
   "related_identifiers": [
     {

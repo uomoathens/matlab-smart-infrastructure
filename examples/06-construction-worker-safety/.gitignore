@@ -1,0 +1,4 @@
+data/*.mp4
+data/*.mov
+data/*.avi
+results/*_annotated_video.avi

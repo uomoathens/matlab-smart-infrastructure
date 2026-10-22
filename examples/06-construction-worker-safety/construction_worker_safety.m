@@ -11,7 +11,7 @@ opts.persistenceSeconds = 0.5;
 opts.saveVideo = false;
 opts.resultsDir = resultsDir;
 
-cases = struct('name', {}, 'videoPath', {}, 'detectorName', {}, 'zoneName', {}, 'zoneNormalized', {});
+cases = struct('name', {}, 'videoPath', {}, 'detectorName', {}, 'zoneName', {}, 'zoneNormalized', {}, 'figureTime', {});
 
 siteVideo = fullfile(exampleDir, 'data', 'site-construction-workers.avi');
 if ~isfile(siteVideo)
@@ -19,7 +19,8 @@ if ~isfile(siteVideo)
 end
 if isfile(siteVideo)
     cases(end + 1) = struct('name', "site", 'videoPath', siteVideo, 'detectorName', "inria", ...
-        'zoneName', "Scaffold (working at height)", 'zoneNormalized', [0 0.25; 0.92 0.25; 0.92 1.00; 0 1.00]);
+        'zoneName', "Scaffold (working at height)", 'zoneNormalized', [0 0.25; 0.92 0.25; 0.92 1.00; 0 1.00], ...
+        'figureTime', 0);
 else
     fprintf('Site video not found at %s; skipping the site case.\n', siteVideo);
 end
@@ -35,7 +36,8 @@ if isempty(demoVideo)
     fprintf('Sample video vippedtracking.mp4 not installed; skipping the demo case.\n');
 else
     cases(end + 1) = struct('name', "demo", 'videoPath', demoVideo, 'detectorName', "caltech", ...
-        'zoneName', "Vehicle path", 'zoneNormalized', [0.30 1.00; 0.45 0.55; 0.55 0.55; 0.70 1.00]);
+        'zoneName', "Vehicle path", 'zoneNormalized', [0.30 1.00; 0.45 0.55; 0.55 0.55; 0.70 1.00], ...
+        'figureTime', NaN);
 end
 
 if isempty(cases)
@@ -70,6 +72,7 @@ if opts.saveVideo
     open(writer);
 end
 
+detections = zeros(0, 8);
 frameTimes = zeros(0, 1);
 workerCounts = zeros(0, 1);
 hazardCounts = zeros(0, 1);
@@ -88,16 +91,23 @@ while hasFrame(reader)
 
     [bboxes, scores] = detect(detector, frame, 'SelectStrongest', false);
     if ~isempty(bboxes)
-        [bboxes, ~] = selectStrongestBbox(bboxes, scores, 'OverlapThreshold', opts.overlapThreshold);
+        [bboxes, scores] = selectStrongestBbox(bboxes, scores, 'OverlapThreshold', opts.overlapThreshold);
     end
     inZone = footInZone(bboxes, zone);
 
     frameTimes(k, 1) = t;
     workerCounts(k, 1) = size(bboxes, 1);
     hazardCounts(k, 1) = nnz(inZone);
+    n = size(bboxes, 1);
+    detections = [detections; repmat([k, t], n, 1), bboxes, scores(:), double(inZone)];
 
-    if hazardCounts(k) > bestHazard || ...
-            (hazardCounts(k) == bestHazard && workerCounts(k) > bestWorkers)
+    if isnan(cfg.figureTime)
+        takeFrame = hazardCounts(k) > bestHazard || ...
+            (hazardCounts(k) == bestHazard && workerCounts(k) > bestWorkers);
+    else
+        takeFrame = isempty(bestFrame) && t >= cfg.figureTime - 1e-9;
+    end
+    if takeFrame
         bestHazard = hazardCounts(k);
         bestWorkers = workerCounts(k);
         bestFrame = frame;
@@ -141,6 +151,15 @@ end
 events = table((1:numEvents)', eventStart, eventEnd, eventEnd - eventStart, peakInZone, ...
     'VariableNames', {'Event', 'Start_s', 'End_s', 'Duration_s', 'PeakWorkersInZone'});
 
+detectionTable = array2table(detections, 'VariableNames', ...
+    {'Frame', 'Time_s', 'X', 'Y', 'Width', 'Height', 'Score', 'InHazardZone'});
+if isempty(detections)
+    scoreQuantiles = NaN(1, 3);
+else
+    sortedScores = sort(detections(:, 7));
+    scoreQuantiles = sortedScores(max(1, round([0.1 0.5 0.9] * numel(sortedScores))))';
+end
+
 perFrame = table((1:k)', frameTimes, workerCounts, hazardCounts, ...
     'VariableNames', {'Frame', 'Time_s', 'WorkersDetected', 'WorkersInHazardZone'});
 
@@ -148,10 +167,12 @@ summary = table( ...
     ["Frames processed"; "Video duration (s)"; "Frame size (pixels)"; ...
      "Frames with at least one worker"; "Total worker detections"; ...
      "Frames with a worker in the hazard zone"; ...
-     sprintf("Sustained hazard events (>= %.1f s)", opts.persistenceSeconds)], ...
+     sprintf("Sustained hazard events (>= %.1f s)", opts.persistenceSeconds); ...
+     "Detection score, 10th / 50th / 90th percentile"], ...
     [string(k); sprintf("%.2f", k / reader.FrameRate); sprintf("%d x %d", reader.Width, reader.Height); ...
      string(nnz(workerCounts > 0)); string(sum(workerCounts)); ...
-     string(nnz(hazardFlag)); string(numEvents)], ...
+     string(nnz(hazardFlag)); string(numEvents); ...
+     sprintf("%.2f / %.2f / %.2f", scoreQuantiles)], ...
     'VariableNames', {'Metric', 'Value'});
 disp(summary);
 disp(events);
@@ -169,18 +190,21 @@ hold(ax2, 'on');
 if numEvents > 0
     xregion(ax2, eventStart, eventEnd, 'FaceColor', [0.85 0.1 0.1], 'FaceAlpha', 0.15);
 end
-hWorkers = stairs(ax2, frameTimes, workerCounts, 'Color', [0.2 0.4 0.8], 'LineWidth', 1.2);
-hHazard = stairs(ax2, frameTimes, hazardCounts, 'Color', [0.85 0.1 0.1], 'LineWidth', 1.5);
+hWorkers = stairs(ax2, frameTimes, workerCounts, 'Color', [0.2 0.4 0.8], 'LineWidth', 3);
+hHazard = stairs(ax2, frameTimes, hazardCounts, 'Color', [0.85 0.1 0.1], 'LineWidth', 1.2);
 hold(ax2, 'off');
 xlabel(ax2, 'Time (s)');
 ylabel(ax2, 'Count');
 title(ax2, sprintf('Detections per frame, shaded: sustained hazard events (>= %.1f s)', ...
     opts.persistenceSeconds));
-legend(ax2, [hWorkers, hHazard], {'Workers detected', 'In hazard zone'}, 'Location', 'northeast');
+ylim(ax2, [0, max(workerCounts) + 1]);
+legend(ax2, [hWorkers, hHazard], {'Workers detected', 'In hazard zone'}, ...
+    'Location', 'northoutside', 'Orientation', 'horizontal');
 grid(ax2, 'on');
 exportgraphics(fig2, fullfile(opts.resultsDir, prefix + "hazard_timeline.png"), 'Resolution', 200);
 
 writetable(perFrame, fullfile(opts.resultsDir, prefix + "detections_per_frame.csv"));
+writetable(detectionTable, fullfile(opts.resultsDir, prefix + "detections.csv"));
 writetable(events, fullfile(opts.resultsDir, prefix + "hazard_events.csv"));
 writetable(summary, fullfile(opts.resultsDir, prefix + "summary.csv"));
 end

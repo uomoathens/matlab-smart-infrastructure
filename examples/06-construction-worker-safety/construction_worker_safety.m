@@ -13,7 +13,10 @@ opts.resultsDir = resultsDir;
 
 cases = struct('name', {}, 'videoPath', {}, 'detectorName', {}, 'zoneName', {}, 'zoneNormalized', {});
 
-siteVideo = fullfile(exampleDir, 'data', 'site-construction-workers.mp4');
+siteVideo = fullfile(exampleDir, 'data', 'site-construction-workers.avi');
+if ~isfile(siteVideo)
+    siteVideo = fullfile(exampleDir, 'data', 'site-construction-workers.mp4');
+end
 if isfile(siteVideo)
     cases(end + 1) = struct('name', "site", 'videoPath', siteVideo, 'detectorName', "inria", ...
         'zoneName', "Scaffold (working at height)", 'zoneNormalized', [0 0.25; 0.92 0.25; 0.92 1.00; 0 1.00]);

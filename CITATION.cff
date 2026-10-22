@@ -7,6 +7,7 @@ authors:
     given-names: Dimitrios
     affiliation: "School of Civil Engineering, National Technical University of Athens"
 license: MIT
+doi: "10.5281/zenodo.23555622"
 preferred-citation:
   type: book
   title: "MATLAB for Civil Engineers: From Basics to Advanced Applications"

@@ -1,5 +1,7 @@
 # MATLAB for Smart Infrastructure
 
+[![DOI](https://zenodo.org/badge/1429348142.svg)](https://doi.org/10.5281/zenodo.23555622)
+
 Companion code for selected case studies from Chapter 15 of
 
 > Sargiotis, D. (2025). *MATLAB for Civil Engineers: From Basics to Advanced Applications*. Springer Nature Switzerland. https://doi.org/10.1007/978-3-031-84673-1

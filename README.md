@@ -36,9 +36,15 @@ or open any script in `examples/` and run it on its own. Every script fixes the 
 
 The scripts follow the models and parameters of the book. They have been revised for public release: fixed random seeds, proper validation of the learning models, data read from files instead of hard-coded placeholders, independent verification of optimisation results, and figures exported automatically. Each example's README lists the specific changes.
 
+## Author
+
+Dimitrios Sargiotis, School of Civil Engineering, National Technical University of Athens · [ORCID 0009-0006-3644-4561](https://orcid.org/0009-0006-3644-4561) · [Personal page](http://users.ntua.gr/dims/software.html)
+
 ## Citation
 
-If you use this code, please cite the book (see [`CITATION.cff`](CITATION.cff)).
+Please cite the software together with the book it accompanies. The **Cite this repository** button on GitHub gives the book citation from [`CITATION.cff`](CITATION.cff); the software citation is:
+
+> Sargiotis, D. (2026). *MATLAB for Smart Infrastructure: companion code for Chapter 15 of MATLAB for Civil Engineers* [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.23555622
 
 ## License
 

@@ -1,11 +1,24 @@
 cff-version: 1.2.0
-message: "If you use this code, please cite the book below."
+message: "If you use this software, please cite it using the metadata below, together with the book it accompanies."
 title: "MATLAB for Smart Infrastructure: companion code for Chapter 15 of MATLAB for Civil Engineers"
 type: software
 authors:
   - family-names: Sargiotis
     given-names: Dimitrios
     affiliation: "School of Civil Engineering, National Technical University of Athens"
+    orcid: "https://orcid.org/0009-0006-3644-4561"
+repository-code: "https://github.com/uomoathens/matlab-smart-infrastructure"
+keywords:
+  - MATLAB
+  - civil engineering
+  - digital twin
+  - structural health monitoring
+  - machine learning
+  - IoT
+  - optimization
+  - genetic algorithm
+  - multi-objective optimization
+  - smart infrastructure
 license: MIT
 doi: "10.5281/zenodo.23555622"
 preferred-citation:
@@ -14,6 +27,7 @@ preferred-citation:
   authors:
     - family-names: Sargiotis
       given-names: Dimitrios
+      orcid: "https://orcid.org/0009-0006-3644-4561"
   publisher:
     name: "Springer Nature Switzerland"
   year: 2025

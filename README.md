@@ -20,7 +20,7 @@ The five examples cover data-driven methods for civil infrastructure: a machine-
 
 ## Requirements
 
-MATLAB R2023b or later. Toolboxes per example are listed above.
+MATLAB R2023b or later. Toolboxes per example are listed above. Every change is tested automatically in GitHub Actions on both R2023b and the latest MATLAB release.
 
 ## Running
 
@@ -30,7 +30,7 @@ Run all examples from the repository root:
 run_all
 ```
 
-or open any script in `examples/` and run it on its own. Every script fixes the random seed with `rng(42)`, so results are reproducible on a given MATLAB release. All examples are also run automatically in GitHub Actions on MATLAB with the required toolboxes, and the `results/` folders in this repository are regenerated whenever the code changes. Examples 01 and 03 also contain a `liveMode` flag; set it to `true` for an animated, real-time view of the sensor stream.
+or open any script in `examples/` and run it on its own. Every script fixes the random seed with `rng(42)`. Examples 01 to 04 reproduce the same numbers on every run; the multi-objective genetic algorithm in example 05 can return a slightly different Pareto set from run to run, as explained in its README. All examples are also run automatically in GitHub Actions on MATLAB with the required toolboxes, and the `results/` folders in this repository are regenerated whenever the code changes. Examples 01 and 03 also contain a `liveMode` flag; set it to `true` for an animated, real-time view of the sensor stream.
 
 ## Relation to the printed text
 

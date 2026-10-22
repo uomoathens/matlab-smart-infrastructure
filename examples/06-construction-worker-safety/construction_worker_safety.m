@@ -11,7 +11,7 @@ opts.persistenceSeconds = 0.5;
 opts.saveVideo = false;
 opts.resultsDir = resultsDir;
 
-cases = struct('name', {}, 'videoPath', {}, 'detectorName', {}, 'zoneName', {}, 'zoneNormalized', {}, 'figureTime', {});
+cases = struct('name', {}, 'videoPath', {}, 'detectorName', {}, 'zoneName', {}, 'zoneNormalized', {}, 'figureTime', {}, 'groundTruth', {});
 
 siteVideo = fullfile(exampleDir, 'data', 'site-construction-workers.avi');
 if ~isfile(siteVideo)
@@ -20,7 +20,7 @@ end
 if isfile(siteVideo)
     cases(end + 1) = struct('name', "site", 'videoPath', siteVideo, 'detectorName', "inria", ...
         'zoneName', "Scaffold (working at height)", 'zoneNormalized', [0 0.25; 0.92 0.25; 0.92 1.00; 0 1.00], ...
-        'figureTime', 0);
+        'figureTime', 0, 'groundTruth', fullfile(exampleDir, 'data', 'site_ground_truth.csv'));
 else
     fprintf('Site video not found at %s; skipping the site case.\n', siteVideo);
 end
@@ -37,7 +37,7 @@ if isempty(demoVideo)
 else
     cases(end + 1) = struct('name', "demo", 'videoPath', demoVideo, 'detectorName', "caltech", ...
         'zoneName', "Vehicle path", 'zoneNormalized', [0.30 1.00; 0.45 0.55; 0.55 0.55; 0.70 1.00], ...
-        'figureTime', NaN);
+        'figureTime', NaN, 'groundTruth', "");
 end
 
 if isempty(cases)
@@ -82,6 +82,7 @@ bestFrame = [];
 bestBoxes = zeros(0, 4);
 bestInZone = false(0, 1);
 bestTime = 0;
+bestK = 0;
 k = 0;
 
 while hasFrame(reader)
@@ -114,6 +115,7 @@ while hasFrame(reader)
         bestBoxes = bboxes;
         bestInZone = inZone;
         bestTime = t;
+        bestK = k;
     end
 
     if opts.saveVideo
@@ -174,14 +176,41 @@ summary = table( ...
      string(nnz(hazardFlag)); string(numEvents); ...
      sprintf("%.2f / %.2f / %.2f", scoreQuantiles)], ...
     'VariableNames', {'Metric', 'Value'});
+
+gtPoints = zeros(0, 2);
+if strlength(cfg.groundTruth) > 0 && isfile(cfg.groundTruth)
+    groundTruth = readtable(cfg.groundTruth);
+    [validation, precision, recall] = evaluateDetections(detections, groundTruth);
+    gtPoints = [groundTruth.X(groundTruth.Frame == bestK), groundTruth.Y(groundTruth.Frame == bestK)];
+    totals = sum(validation{:, 2:end}, 1);
+    summary = [summary; table( ...
+        ["Annotated frames"; "Annotated worker instances"; ...
+         "True positives / false positives / false negatives"; ...
+         "Precision on annotated frames"; "Recall on annotated frames"], ...
+        [string(height(validation)); string(totals(1)); ...
+         sprintf("%d / %d / %d", totals(3), totals(4), totals(5)); ...
+         sprintf("%.3f", precision); sprintf("%.3f", recall)], ...
+        'VariableNames', {'Metric', 'Value'})];
+    disp(validation);
+    writetable(validation, fullfile(opts.resultsDir, prefix + "validation.csv"));
+end
 disp(summary);
 disp(events);
 
 fig1 = figure('Name', 'Hazard frame', 'Position', [100 100 900 560]);
 ax1 = axes(fig1);
 drawAnnotations(ax1, bestFrame, bestBoxes, bestInZone, zone, zoneName);
-title(ax1, sprintf('t = %.2f s: %d workers detected, %d in zone "%s"', ...
-    bestTime, size(bestBoxes, 1), nnz(bestInZone), zoneName));
+if isempty(gtPoints)
+    title(ax1, sprintf('t = %.2f s: %d workers detected, %d in zone "%s"', ...
+        bestTime, size(bestBoxes, 1), nnz(bestInZone), zoneName));
+else
+    hold(ax1, 'on');
+    plot(ax1, gtPoints(:, 1), gtPoints(:, 2), '+', 'Color', [0 0.8 1], 'MarkerSize', 14, 'LineWidth', 2.5);
+    hold(ax1, 'off');
+    title(ax1, {sprintf('t = %.2f s: %d workers detected, %d in zone "%s"', ...
+        bestTime, size(bestBoxes, 1), nnz(bestInZone), zoneName), ...
+        sprintf('+ marks the %d workers annotated by hand in this frame', size(gtPoints, 1))});
+end
 exportgraphics(fig1, fullfile(opts.resultsDir, prefix + "hazard_frame.png"), 'Resolution', 200);
 
 fig2 = figure('Name', 'Hazard timeline', 'Position', [100 100 900 400]);
@@ -209,13 +238,45 @@ writetable(events, fullfile(opts.resultsDir, prefix + "hazard_events.csv"));
 writetable(summary, fullfile(opts.resultsDir, prefix + "summary.csv"));
 end
 
+function [validation, precision, recall] = evaluateDetections(detections, groundTruth)
+gtFrames = unique(groundTruth.Frame);
+counts = zeros(numel(gtFrames), 5);
+for i = 1:numel(gtFrames)
+    f = gtFrames(i);
+    points = [groundTruth.X(groundTruth.Frame == f), groundTruth.Y(groundTruth.Frame == f)];
+    used = false(size(points, 1), 1);
+    d = detections(detections(:, 1) == f, :);
+    [~, order] = sort(d(:, 7), 'descend');
+    d = d(order, :);
+    tp = 0;
+    for j = 1:size(d, 1)
+        box = d(j, 3:6);
+        inside = ~used & points(:, 1) >= box(1) & points(:, 1) <= box(1) + box(3) & ...
+            points(:, 2) >= box(2) & points(:, 2) <= box(2) + box(4);
+        if any(inside)
+            candidates = find(inside);
+            centre = [box(1) + box(3) / 2, box(2) + box(4) / 2];
+            [~, nearest] = min(sum((points(candidates, :) - centre) .^ 2, 2));
+            used(candidates(nearest)) = true;
+            tp = tp + 1;
+        end
+    end
+    counts(i, :) = [size(points, 1), size(d, 1), tp, size(d, 1) - tp, nnz(~used)];
+end
+validation = array2table([gtFrames, counts], 'VariableNames', ...
+    {'Frame', 'GroundTruthWorkers', 'Detections', 'TruePositives', 'FalsePositives', 'FalseNegatives'});
+totals = sum(counts, 1);
+precision = totals(3) / max(1, totals(3) + totals(4));
+recall = totals(3) / max(1, totals(3) + totals(5));
+end
+
 function inZone = footInZone(bboxes, zone)
 if isempty(bboxes)
     inZone = false(0, 1);
     return;
 end
 footX = bboxes(:, 1) + bboxes(:, 3) / 2;
-footY = bboxes(:, 2) + bboxes(:, 4);
+footY = bboxes(:, 2) + bboxes(:, 4) - 1;
 inZone = inpolygon(footX, footY, zone(:, 1), zone(:, 2));
 end
 

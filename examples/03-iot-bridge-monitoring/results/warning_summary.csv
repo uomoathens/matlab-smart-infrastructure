@@ -1,0 +1,11 @@
+Sensor,StrainWarnings,TiltWarnings,VibrationWarnings,StrainAlarms,TiltAlarms,VibrationAlarms
+1,0,29,20,0,2,1
+2,0,27,26,0,2,3
+3,0,31,19,0,4,2
+4,1,35,22,0,4,2
+5,0,30,21,0,3,2
+6,0,33,21,0,5,2
+7,0,24,26,0,2,2
+8,0,33,24,0,3,1
+9,0,30,23,0,3,2
+10,0,31,23,0,4,2

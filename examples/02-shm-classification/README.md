@@ -19,6 +19,19 @@ The script reports two figures for each model:
 
 On this dataset both models also reach 100% under leave-one-out validation, because the two classes are separable. The example therefore demonstrates a correct validation workflow; claims about generalisation would require a larger, field-measured dataset.
 
+## Results
+
+From the automated run in GitHub Actions (seed 42):
+
+| Model | Training accuracy | Leave-one-out accuracy |
+|---|---:|---:|
+| Bagged trees | 100% | 100% |
+| Neural network | 100% | 100% |
+
+All 13 structures are classified correctly when held out, consistent with the two classes being separable.
+
+![Leave-one-out confusion matrices](results/confusion_matrices.png)
+
 ## Outputs
 
 - `results/confusion_matrices.png`: leave-one-out confusion matrices for both models

@@ -32,7 +32,7 @@ pareto = table(x(:, 1), x(:, 2), capacity, fval(:, 1), fval(:, 2), ...
 fprintf('Pareto-optimal designs found: %d\n', height(pareto));
 fprintf('Primary unit range  : %.0f to %.0f\n', min(x(:, 1)), max(x(:, 1)));
 fprintf('Secondary unit range: %.0f to %.0f\n', min(x(:, 2)), max(x(:, 2)));
-fprintf('Minimum capacity margin: %.2f\n', min(capacity) - requiredCapacity);
+fprintf('Minimum capacity: %.2f (required %d)\n', min(capacity), requiredCapacity);
 fprintf('\nCompromise design (closest to the utopia point):\n');
 disp(pareto(compromiseIdx, :));
 

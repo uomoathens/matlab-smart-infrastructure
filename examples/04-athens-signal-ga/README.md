@@ -34,6 +34,12 @@ clipped to the bounds. The script solves the problem with `ga` (followed by an `
 
 These values agree with the GA results printed in the book to within 0.01 s.
 
+## Results
+
+From the automated run in GitHub Actions (seed 42), the GA with `fmincon` refinement reaches the closed-form optimum to within $1.85 \times 10^{-6}$ s at every location, with identical fitness (335.778073).
+
+![Green durations](results/green_durations.png)
+
 ## Outputs
 
 - `results/green_durations.png`: GA and closed-form durations per location

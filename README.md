@@ -1,6 +1,6 @@
 # MATLAB for Smart Infrastructure
 
-[![DOI](https://zenodo.org/badge/1429348142.svg)](https://doi.org/10.5281/zenodo.23555622)
+[![DOI](https://zenodo.org/badge/1429348142.svg)](https://doi.org/10.5281/zenodo.23555622) [![Run examples](https://github.com/uomoathens/matlab-smart-infrastructure/actions/workflows/run-examples.yml/badge.svg)](https://github.com/uomoathens/matlab-smart-infrastructure/actions/workflows/run-examples.yml)
 
 Companion code for selected case studies from Chapter 15 of
 
@@ -30,7 +30,7 @@ Run all examples from the repository root:
 run_all
 ```
 
-or open any script in `examples/` and run it on its own. Every script fixes the random seed with `rng(42)`, so results are reproducible on a given MATLAB release. Examples 01 and 03 also contain a `liveMode` flag; set it to `true` for an animated, real-time view of the sensor stream.
+or open any script in `examples/` and run it on its own. Every script fixes the random seed with `rng(42)`, so results are reproducible on a given MATLAB release. All examples are also run automatically in GitHub Actions on MATLAB with the required toolboxes, and the `results/` folders in this repository are regenerated whenever the code changes. Examples 01 and 03 also contain a `liveMode` flag; set it to `true` for an animated, real-time view of the sensor stream.
 
 ## Relation to the printed text
 

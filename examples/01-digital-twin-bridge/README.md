@@ -13,6 +13,24 @@ A virtual replica of a bridge instrumented with ten sensors. A bagged ensemble o
 
 The data are synthetic. The target is the mean of the three features plus Gaussian noise with standard deviation 10 kPa, so the attainable $R^2$ is bounded at roughly 0.74 by the noise level. Values close to that bound indicate that the model has captured the signal.
 
+## Results
+
+From the automated run in GitHub Actions (seed 42):
+
+| Metric | Value |
+|---|---:|
+| Hold-out MSE | 125.36 kPa² |
+| Hold-out MAE | 9.23 kPa |
+| Hold-out $R^2$ | 0.715 |
+| Warnings raised on the 10 s stream | 12 |
+| MAE between predicted and measured stress on the stream | 2.81 kPa |
+
+The hold-out $R^2$ of 0.715 is close to the noise-limited bound of about 0.74.
+
+![Hold-out parity plot](results/parity_plot.png)
+
+![Digital twin monitoring](results/digital_twin_monitoring.png)
+
 ## Outputs
 
 - `results/parity_plot.png`: observed vs predicted stress on the hold-out set

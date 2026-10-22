@@ -15,6 +15,21 @@ In addition to single-sample warnings, the script counts **sustained alarms**: r
 
 The thresholds and distributions are illustrative. With uniform tilt on 0–10° and a 5° threshold, about half of all tilt readings exceed the limit, which is why tilt dominates the warning counts.
 
+## Results
+
+From the automated run in GitHub Actions (seed 42), over 10 sensors and 60 s:
+
+| Rule | Count |
+|---|---:|
+| Single-sample warnings | 529 |
+| Sustained alarms (at least 3 consecutive exceedances) | 51 |
+
+The persistence rule reduces the number of alerts by roughly a factor of ten. Strain exceeded its threshold only once, at sensor 4, and never for three consecutive samples.
+
+![Sensor streams](results/sensor_streams.png)
+
+![Warnings and alarms](results/warnings_and_alarms.png)
+
 ## Outputs
 
 - `results/sensor_streams.png`: strain, tilt and vibration histories for all sensors with thresholds

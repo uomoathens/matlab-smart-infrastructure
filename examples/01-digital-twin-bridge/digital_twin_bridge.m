@@ -95,14 +95,14 @@ fig2 = figure('Name', 'Digital twin monitoring', 'Position', [100 100 900 650]);
 subplot(2, 1, 1);
 plot(time, predicted', 'LineWidth', 0.8);
 hold on;
-yline(stressThreshold, 'r--', 'Warning threshold', 'LineWidth', 1.2, 'LabelHorizontalAlignment', 'left', 'LabelVerticalAlignment', 'bottom');
+yline(stressThreshold, 'r--', 'LineWidth', 1.2);
 if ~isempty(warningLog)
     plot(warningLog(:, 1), warningLog(:, 3), 'rx', 'MarkerSize', 8, 'LineWidth', 1.2);
 end
 grid on;
 xlabel('Time (s)');
 ylabel('Predicted stress (kPa)');
-title('Real-time stress prediction for all sensors');
+title(sprintf('Real-time stress prediction for all sensors (dashed line: %d kPa warning threshold)', stressThreshold));
 
 subplot(2, 1, 2);
 plot(1:numSensors, measured(:, end), 'r-o', 'DisplayName', 'Measured');
@@ -111,6 +111,8 @@ plot(1:numSensors, predicted(:, end), 'b-o', 'DisplayName', 'Predicted');
 grid on;
 xlabel('Sensor');
 ylabel('Stress (kPa)');
+xlim([0.5 numSensors + 0.5]);
+xticks(1:numSensors);
 legend('Location', 'best');
 title(sprintf('Measured vs predicted stress at t = %.1f s', time(end)));
 exportgraphics(fig2, fullfile(resultsDir, 'digital_twin_monitoring.png'), 'Resolution', 200);

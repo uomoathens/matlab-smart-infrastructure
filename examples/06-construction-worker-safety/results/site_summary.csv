@@ -1,0 +1,8 @@
+Metric,Value
+Frames processed,297
+Video duration (s),9.91
+Frame size (pixels),768 x 432
+Frames with at least one worker,297
+Total worker detections,956
+Frames with a worker in the hazard zone,297
+Sustained hazard events (>= 0.5 s),1

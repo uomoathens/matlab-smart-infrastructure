@@ -24,6 +24,23 @@ Larger units cost more but reduce environmental impact, so the two objectives co
 
 Both objectives are normalised to $[0,1]$ over the Pareto front, and the design with the smallest Euclidean distance to the utopia point $(0,0)$ is reported as the compromise. This is one common rule; weighted or knee-point criteria can be substituted.
 
+## Results
+
+From the automated run in GitHub Actions (seed 42):
+
+| Quantity | Value |
+|---|---:|
+| Pareto-optimal designs | 70 |
+| Primary unit range | 718 to 1000 |
+| Secondary unit range | 200 to 1000 |
+| Compromise design $(x_1, x_2)$ | (754, 527) |
+| Compromise total cost | $9.53 \times 10^5$ |
+| Compromise environmental impact | 5.60 |
+
+Designs at the low-cost end of the front lie on the capacity limit, as expected when cost increases with unit size.
+
+![Pareto front](results/pareto_front.png)
+
 ## Outputs
 
 - `results/pareto_front.png`: Pareto front in objective space, and the Pareto set in design space with the capacity constraint

@@ -51,7 +51,7 @@ b(1).FaceColor = [0 0.5 0];
 b(2).FaceColor = [0.6 0.8 0.6];
 ylabel('Green light duration (s)');
 title('Optimal green durations: genetic algorithm vs closed-form optimum');
-legend('GA + fmincon', 'Closed form', 'Location', 'northoutside', 'Orientation', 'horizontal');
+legend('GA + fmincon', 'Closed form', 'Location', 'eastoutside');
 grid on;
 exportgraphics(fig, fullfile(resultsDir, 'green_durations.png'), 'Resolution', 200);
 

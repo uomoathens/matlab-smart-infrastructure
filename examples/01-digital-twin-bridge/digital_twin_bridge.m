@@ -95,7 +95,7 @@ fig2 = figure('Name', 'Digital twin monitoring', 'Position', [100 100 900 650]);
 subplot(2, 1, 1);
 plot(time, predicted', 'LineWidth', 0.8);
 hold on;
-yline(stressThreshold, 'r--', 'Warning threshold', 'LineWidth', 1.2);
+yline(stressThreshold, 'r--', 'Warning threshold', 'LineWidth', 1.2, 'LabelHorizontalAlignment', 'left');
 if ~isempty(warningLog)
     plot(warningLog(:, 1), warningLog(:, 3), 'rx', 'MarkerSize', 8, 'LineWidth', 1.2);
 end

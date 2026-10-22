@@ -68,7 +68,7 @@ fig1 = figure('Name', 'Sensor streams', 'Position', [100 100 900 700]);
 subplot(3, 1, 1);
 plot(time, strain');
 yline(strainThreshold, 'r--', 'Threshold', 'LineWidth', 1.2);
-ylabel('Strain (\mu\epsilon)');
+ylabel('Strain (microstrain)');
 title('Strain');
 grid on;
 subplot(3, 1, 2);

@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the book below."
+title: "MATLAB for Smart Infrastructure: companion code for Chapter 15 of MATLAB for Civil Engineers"
+type: software
+authors:
+  - family-names: Sargiotis
+    given-names: Dimitrios
+    affiliation: "School of Civil Engineering, National Technical University of Athens"
+license: MIT
+preferred-citation:
+  type: book
+  title: "MATLAB for Civil Engineers: From Basics to Advanced Applications"
+  authors:
+    - family-names: Sargiotis
+      given-names: Dimitrios
+  publisher:
+    name: "Springer Nature Switzerland"
+  year: 2025
+  doi: "10.1007/978-3-031-84673-1"
+  isbn: "978-3-031-84673-1"

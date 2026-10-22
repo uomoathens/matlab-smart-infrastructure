@@ -6,11 +6,11 @@ Workers are detected frame by frame in a video with MATLAB's pre-trained Aggrega
 
 ## Model
 
-- Detection: $[\mathbf{B}, \mathbf{s}] = \operatorname{detect}(\text{model}, I_t)$, where each row of $\mathbf{B}$ is a box $(x, y, w, h)$ and $\mathbf{s}$ holds the confidence scores for frame $I_t$
-- Overlap of two boxes: $\mathrm{IoU}(A, B) = \dfrac{\lvert A \cap B \rvert}{\lvert A \cup B \rvert}$; a box is suppressed when its IoU with a stronger box exceeds 0.3
-- Foot point of a worker: $\mathbf{p} = \left(x + \tfrac{w}{2},\; y + h\right)$
-- Hazard label: $h_j = \mathbb{1}\left[\mathbf{p}_j \in Z\right]$, where $Z$ is the hazard-zone polygon
-- Sustained hazard event: a run of at least $\lceil 0.5\,f \rceil$ consecutive frames, at frame rate $f$, in which $\sum_j h_j \geq 1$
+- Detection: $`[\mathbf{B}, \mathbf{s}] = \mathrm{detect}(\text{model}, I_t)`$, where each row of $`\mathbf{B}`$ is a box $`(x, y, w, h)`$ and $`\mathbf{s}`$ holds the confidence scores for frame $`I_t`$
+- Overlap of two boxes: $`\mathrm{IoU}(A, B) = \dfrac{\lvert A \cap B \rvert}{\lvert A \cup B \rvert}`$; a box is suppressed when its IoU with a stronger box exceeds 0.3
+- Foot point of a worker: $`\mathbf{p} = \left(x + \tfrac{w}{2},\; y + h\right)`$
+- Hazard label: $`h_j = \mathbf{1}\left[\mathbf{p}_j \in Z\right]`$, where $`Z`$ is the hazard-zone polygon
+- Sustained hazard event: a run of at least $`\lceil 0.5\,f \rceil`$ consecutive frames, at frame rate $`f`$, in which $`\sum_j h_j \geq 1`$
 
 The foot point is used instead of the box centre because the hazard depends on where a person stands. A worker on the ground in front of a scaffold may overlap the scaffold in the image without being on it.
 

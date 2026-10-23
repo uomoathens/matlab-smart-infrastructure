@@ -58,7 +58,7 @@ text(ax, b(2).XEndPoints, b(2).YEndPoints, compose('%.2f', greenExact), ...
     'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 8);
 ylim(ax, [0 15]);
 ylabel(ax, 'Green light duration (s)');
-title(ax, 'Optimal green durations: genetic algorithm vs closed-form optimum', 'FontWeight', 'normal');
+title(tl, 'Optimal green durations: genetic algorithm vs closed-form optimum', 'FontWeight', 'normal');
 legend(ax, 'GA + fmincon', 'Closed form', 'Location', 'northoutside', 'Orientation', 'horizontal');
 grid(ax, 'on');
 exportgraphics(fig, fullfile(resultsDir, 'green_durations.png'), 'Resolution', 200);

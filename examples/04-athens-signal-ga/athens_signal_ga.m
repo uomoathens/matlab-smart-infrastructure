@@ -42,17 +42,25 @@ if ~isfolder(resultsDir)
     mkdir(resultsDir);
 end
 
-locationLabels = categorical(strrep(data.location, '_', ' '));
-locationLabels = reordercats(locationLabels, cellstr(strrep(data.location, '_', ' ')));
+locationLabels = strrep(data.location, '_', ' ');
 
-fig = figure('Name', 'Athens signal optimisation');
-b = bar(locationLabels, [greenGA', greenExact'], 'grouped');
+fig = figure('Name', 'Athens signal optimisation', 'Position', [100 100 900 480]);
+tl = tiledlayout(fig, 1, 1, 'Padding', 'compact');
+ax = nexttile(tl);
+b = bar(ax, 1:numLights, [greenGA', greenExact'], 'grouped');
+xticks(ax, 1:numLights);
+xticklabels(ax, locationLabels);
 b(1).FaceColor = [0 0.5 0];
 b(2).FaceColor = [0.6 0.8 0.6];
-ylabel('Green light duration (s)');
-title('Optimal green durations: genetic algorithm vs closed-form optimum');
-legend('GA + fmincon', 'Closed form', 'Location', 'eastoutside');
-grid on;
+text(ax, b(1).XEndPoints, b(1).YEndPoints, compose('%.2f', greenGA), ...
+    'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 8);
+text(ax, b(2).XEndPoints, b(2).YEndPoints, compose('%.2f', greenExact), ...
+    'HorizontalAlignment', 'center', 'VerticalAlignment', 'bottom', 'FontSize', 8);
+ylim(ax, [0 15]);
+ylabel(ax, 'Green light duration (s)');
+title(ax, 'Optimal green durations: genetic algorithm vs closed-form optimum', 'FontWeight', 'normal');
+legend(ax, 'GA + fmincon', 'Closed form', 'Location', 'northoutside', 'Orientation', 'horizontal');
+grid(ax, 'on');
 exportgraphics(fig, fullfile(resultsDir, 'green_durations.png'), 'Resolution', 200);
 
 writetable(results, fullfile(resultsDir, 'green_durations.csv'));

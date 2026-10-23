@@ -41,32 +41,36 @@ if ~isfolder(resultsDir)
     mkdir(resultsDir);
 end
 
-fig = figure('Name', 'Wastewater Pareto front', 'Position', [100 100 1000 420]);
-subplot(1, 2, 1);
-plot(fval(:, 1), fval(:, 2), 'o', 'Color', [0.8 0.2 0.2]);
-hold on;
-plot(fval(compromiseIdx, 1), fval(compromiseIdx, 2), 'kp', 'MarkerSize', 14, 'MarkerFaceColor', 'y');
-xlabel('Total cost');
-ylabel('Environmental impact');
-title('Pareto front');
-legend('Pareto-optimal designs', 'Compromise design', 'Location', 'northeast');
-grid on;
+fig = figure('Name', 'Wastewater Pareto front', 'Position', [100 100 1100 460]);
+tl = tiledlayout(fig, 1, 2, 'TileSpacing', 'loose', 'Padding', 'compact');
 
-subplot(1, 2, 2);
-scatter(x(:, 1), x(:, 2), 30, fval(:, 1), 'filled');
-hold on;
+ax1 = nexttile(tl);
+plot(ax1, fval(:, 1), fval(:, 2), 'o', 'Color', [0.8 0.2 0.2]);
+hold(ax1, 'on');
+plot(ax1, fval(compromiseIdx, 1), fval(compromiseIdx, 2), 'kp', 'MarkerSize', 14, 'MarkerFaceColor', 'y');
+xlabel(ax1, 'Total cost');
+ylabel(ax1, 'Environmental impact');
+title(ax1, 'Pareto front');
+legend(ax1, 'Pareto-optimal designs', 'Compromise design', 'Location', 'northeast', 'Box', 'off');
+grid(ax1, 'on');
+
+ax2 = nexttile(tl);
+scatter(ax2, x(:, 1), x(:, 2), 30, fval(:, 1), 'filled');
+hold(ax2, 'on');
 x1Line = linspace(lb(1), ub(1), 100);
-hLimit = plot(x1Line, (requiredCapacity - capacityCoeffs(1) * x1Line) / capacityCoeffs(2), 'k--');
-hStar = plot(x(compromiseIdx, 1), x(compromiseIdx, 2), 'kp', 'MarkerSize', 14, 'MarkerFaceColor', 'y');
-xlim([lb(1) ub(1)]);
-ylim([lb(2) ub(2)]);
-cb = colorbar;
-cb.Label.String = 'Total cost';
-xlabel('Primary unit size');
-ylabel('Secondary unit size');
-title('Pareto set in design space (colour: total cost)');
-legend([hLimit, hStar], {'Capacity limit', 'Compromise design'}, 'Location', 'southwest');
-grid on;
+hLimit = plot(ax2, x1Line, (requiredCapacity - capacityCoeffs(1) * x1Line) / capacityCoeffs(2), 'k--');
+hStar = plot(ax2, x(compromiseIdx, 1), x(compromiseIdx, 2), 'kp', 'MarkerSize', 14, 'MarkerFaceColor', 'y');
+xlim(ax2, [lb(1) ub(1)]);
+ylim(ax2, [lb(2) ub(2)]);
+cb = colorbar(ax2);
+cb.Title.String = 'Total cost';
+xlabel(ax2, 'Primary unit size');
+yl = ylabel(ax2, 'Secondary unit size');
+yl.Units = 'normalized';
+yl.Position(1) = -0.14;
+title(ax2, 'Pareto set in design space (colour: total cost)');
+legend(ax2, [hLimit, hStar], {'Capacity limit', 'Compromise design'}, 'Location', 'southwest', 'Box', 'off');
+grid(ax2, 'on');
 exportgraphics(fig, fullfile(resultsDir, 'pareto_front.png'), 'Resolution', 200);
 
 writetable(pareto, fullfile(resultsDir, 'pareto_front.csv'));

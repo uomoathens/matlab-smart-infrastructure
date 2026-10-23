@@ -113,7 +113,7 @@ xlabel('Sensor');
 ylabel('Stress (kPa)');
 xlim([0.5 numSensors + 0.5]);
 xticks(1:numSensors);
-legend('Location', 'best');
+legend('Location', 'best', 'Box', 'off');
 title(sprintf('Measured vs predicted stress at t = %.1f s', time(end)));
 exportgraphics(fig2, fullfile(resultsDir, 'digital_twin_monitoring.png'), 'Resolution', 200);
 

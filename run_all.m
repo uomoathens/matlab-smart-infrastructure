@@ -8,11 +8,6 @@ scripts = [
     "examples/05-wastewater-pareto/wastewater_pareto.m"
     "examples/06-construction-worker-safety/construction_worker_safety.m"
 ];
-fontName = getenv('MSI_PLOT_FONT');
-if ~isempty(fontName)
-    set(groot, 'defaultAxesFontName', fontName, 'defaultTextFontName', fontName, ...
-        'defaultLegendFontName', fontName, 'defaultColorbarFontName', fontName);
-end
 for i = 1:numel(scripts)
     runIsolated(fullfile(root, scripts(i)));
     close all;

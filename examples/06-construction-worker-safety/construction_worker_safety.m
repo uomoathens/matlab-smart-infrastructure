@@ -228,7 +228,7 @@ title(ax2, sprintf('Detections per frame, shaded: sustained hazard events (>= %.
     opts.persistenceSeconds));
 ylim(ax2, [0, max(workerCounts) + 3]);
 yticks(ax2, 0:(max(workerCounts) + 3));
-legend(ax2, [hWorkers, hHazard], {'Workers detected', 'In hazard zone'}, 'Location', 'northeast');
+legend(ax2, [hWorkers, hHazard], {'Workers detected', 'In hazard zone'}, 'Location', 'northwest', 'Box', 'off');
 grid(ax2, 'on');
 exportgraphics(fig2, fullfile(opts.resultsDir, prefix + "hazard_timeline.png"), 'Resolution', 200);
 

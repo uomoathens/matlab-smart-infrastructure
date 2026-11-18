@@ -13,7 +13,7 @@ Simulated streams from ten IoT sensors measuring strain, tilt and vibration over
 
 In addition to single-sample warnings, the script counts **sustained alarms**: runs of at least three consecutive exceedances. Single-sample rules flag isolated spikes caused by noise, while persistence-based rules are the usual way to reduce false alarms in structural health monitoring.
 
-The thresholds and distributions are illustrative. With uniform tilt on 0–10° and a 5° threshold, about half of all tilt readings exceed the limit, which is why tilt dominates the warning counts.
+The thresholds and distributions are illustrative. With uniform tilt between 0° and 10° and a 5° threshold, about half of all tilt readings exceed the limit, which is why tilt dominates the warning counts.
 
 ## Results
 

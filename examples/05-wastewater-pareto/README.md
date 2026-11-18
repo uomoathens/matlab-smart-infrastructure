@@ -31,7 +31,7 @@ Range observed across the automated runs in GitHub Actions on MATLAB R2023b and 
 | Quantity | Value |
 |---|---:|
 | Pareto-optimal designs | 70 |
-| Primary unit range | 715–724 to 1000 |
+| Primary unit range | lowest 715 to 724, depending on the run; highest 1000 |
 | Secondary unit range | 200 to 1000 |
 | Compromise design $(x_1, x_2)$ | from (754, 527) to (850, 490) along the front |
 | Compromise total cost | $9.4$ to $9.6 \times 10^5$ |

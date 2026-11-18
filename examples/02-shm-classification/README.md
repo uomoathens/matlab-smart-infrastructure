@@ -41,5 +41,5 @@ All 13 structures are classified correctly when held out, consistent with the tw
 
 - Leave-one-out cross-validation added; the printed version evaluates on the training data only.
 - The neural network is built with `fitcnet` (Statistics and Machine Learning Toolbox) instead of `trainNetwork` with `classificationLayer`, which MathWorks no longer recommends. The architecture is unchanged and the Deep Learning Toolbox is no longer required.
-- Standardisation is handled inside each model (`'Standardize', true`), avoiding train–test leakage. Tree ensembles do not need scaling.
+- Standardisation is handled inside each model (`'Standardize', true`), avoiding leakage between training and test data. Tree ensembles do not need scaling.
 - Random seed fixed for reproducibility.

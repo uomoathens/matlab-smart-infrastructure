@@ -51,4 +51,4 @@ Please cite the software together with the book it accompanies. The **Cite this 
 
 ## License
 
-Released under the MIT License. See [`LICENSE`](LICENSE).
+Released under the MIT License. See [`LICENSE`](LICENSE). The construction-site clip of example 06 and the frame taken from it (`examples/06-construction-worker-safety/results/site_hazard_frame.png`) are iStock.com/Filmmaker, used under an iStock licence, and are not covered by the MIT License.
